@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Programme – Belmont Vocational Training</title>
+  <meta name="theme-color" content="#0d0d0d">
+  <script src="/js/file-guard.js"></script>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/belmont.css">
+</head>
+<body>
+  <div class="loader" aria-hidden="true"><div class="loader-bars"><span></span><span></span><span></span></div></div>
+  <div data-layout="header"></div>
+
+  <main>
+    <section class="page-banner programme-banner">
+      <div class="hero-bg" aria-hidden="true"><div class="hero-image" style="opacity:.25"></div><div class="grid-overlay"></div><div class="blob blob-red"></div><div class="blob blob-gold"></div></div>
+      <div class="container" id="banner"><nav class="breadcrumb"><a href="/">Home</a> / <a href="/programmes">Programmes</a></nav><h1>&nbsp;</h1></div>
+    </section>
+
+    <div class="container" style="padding-bottom:20px">
+      <div class="empty" id="not-found" hidden style="margin-top:30px">
+        <div class="empty-icon"><i data-icon="search"></i></div>
+        <h3>This programme doesn’t exist (anymore)</h3>
+        <p style="color:var(--muted)">It may have been filled or removed.</p>
+        <a class="btn btn-primary" href="/programmes">Browse programmes</a>
+      </div>
+
+      <div class="detail" id="detail" hidden>
+        <div>
+          <article class="card detail-body" id="body" data-reveal></article>
+
+          <section class="card apply-section" id="apply" data-reveal>
+            <div class="apply-head">
+              <span class="bar"></span>
+              <div><h2>Apply for this programme</h2><p>Your Belmont profile and documents are sent with your application.</p></div>
+            </div>
+            <div id="apply-area"><div class="skeleton"><div class="sk" style="height:120px;border-radius:14px"></div></div></div>
+            <div class="success" id="success" role="status">
+              <svg class="success-mark" viewBox="0 0 110 110" aria-hidden="true"><circle cx="55" cy="55" r="50"/><path d="M33 57l15 15 30-32"/></svg>
+              <h2>Application sent, <span id="success-name"></span>!</h2>
+              <p style="color:var(--muted);max-width:460px;margin:0 auto 22px">Our team will review your profile and contact you about the next steps. You can follow the status in your account.</p>
+              <div class="gate-actions"><a class="btn btn-dark" href="/account#applications">Track my applications</a><a class="btn btn-outline" href="/programmes">More programmes</a></div>
+            </div>
+          </section>
+        </div>
+
+        <aside class="side-card">
+          <div class="side-salary" data-reveal="right">
+            <small>Training salary</small>
+            <strong id="side-allowance">–</strong>
+            <a href="#apply" class="btn btn-gold btn-block" id="side-apply">Apply now <i data-icon="arrow"></i></a>
+          </div>
+          <div class="card" data-reveal="right" style="--d:.1s;padding:8px 24px"><div class="facts" id="facts"></div></div>
+          <div class="card" data-reveal="right" style="--d:.2s;padding:20px 24px">
+            <div style="font-weight:600;margin-bottom:12px">Share this programme</div>
+            <div class="share-row">
+              <a class="icon-btn" id="share-wa" target="_blank" rel="noopener" aria-label="Share on WhatsApp" title="WhatsApp"><i data-icon="phone"></i></a>
+              <a class="icon-btn" id="share-mail" aria-label="Share by email" title="Email"><i data-icon="mail"></i></a>
+              <button class="icon-btn" id="copy-link" type="button" aria-label="Copy link" title="Copy link"><i data-icon="link"></i></button>
+            </div>
+          </div>
+          <div id="similar"></div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <div data-layout="footer"></div>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/programme.js"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Programmes – Belmont Vocational Training</title>
+  <meta name="description" content="Browse Ausbildung and nursing programmes in Germany by field, city and intake.">
+  <meta name="theme-color" content="#0d0d0d">
+  <script src="/js/file-guard.js"></script>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/belmont.css">
+</head>
+<body>
+  <div class="loader" aria-hidden="true"><div class="loader-bars"><span></span><span></span><span></span></div></div>
+  <div data-layout="header"></div>
+
+  <main>
+    <section class="page-banner">
+      <div class="hero-bg" aria-hidden="true"><div class="hero-image" style="opacity:.28"></div><div class="grid-overlay"></div><div class="blob blob-red"></div><div class="blob blob-gold"></div></div>
+      <div class="container">
+        <nav class="breadcrumb" data-reveal><a href="/">Home</a> / <span>Programmes</span></nav>
+        <h1 data-reveal style="--d:.1s">Find your <span class="flag-text-gold">training</span> in <span class="flag-text-red">Germany</span></h1>
+        <p data-reveal style="--d:.2s">Paid Ausbildung and nursing programmes — filter by field, city and intake.</p>
+      </div>
+    </section>
+
+    <div class="container" style="padding-bottom:20px">
+      <div class="listing">
+        <aside class="filters" id="filters" aria-label="Filters">
+          <div class="filters-head">
+            <h3>Filters</h3>
+            <div style="display:flex;gap:14px;align-items:center">
+              <button class="link-btn" id="clear-filters" type="button">Clear all</button>
+              <button class="icon-btn filter-toggle" id="close-filters" type="button" aria-label="Close filters"><i data-icon="x"></i></button>
+            </div>
+          </div>
+          <div class="filter-group" style="border-top:0;padding-top:0">
+            <h4>City</h4>
+            <select class="select" id="f-location"><option value="">All cities</option></select>
+          </div>
+          <div class="filter-group"><h4>Field</h4><div class="chip-list" data-filter="field"></div></div>
+          <div class="filter-group"><h4>Programme type</h4><div class="chip-list" data-filter="type"></div></div>
+          <div class="filter-group"><h4>Intake</h4><div class="chip-list" data-filter="intake"></div></div>
+          <button class="btn btn-dark btn-block filter-toggle" id="apply-filters" type="button">Show results</button>
+        </aside>
+
+        <div>
+          <form class="results-bar" id="search-form">
+            <label class="results-search"><i data-icon="search"></i><span class="sr-only">Search</span><input id="f-q" placeholder="Search programme, field or city…" autocomplete="off"></label>
+            <button class="btn btn-outline btn-sm filter-toggle" id="open-filters" type="button"><i data-icon="filter"></i> Filters</button>
+            <select class="select" id="f-sort" style="width:auto" aria-label="Sort by">
+              <option value="">Newest first</option>
+              <option value="allowance">Highest salary</option>
+            </select>
+            <button class="btn btn-primary btn-sm" type="submit">Search</button>
+          </form>
+          <div class="results-meta"><span id="results-count">Loading programmes…</span></div>
+          <div class="results-list" id="results"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div data-layout="footer"></div>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/programmes.js"></script>
+</body>
+</html>

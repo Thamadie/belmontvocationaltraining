@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>My account – Belmont Vocational Training</title>
+  <meta name="theme-color" content="#0d0d0d">
+  <script src="/js/file-guard.js"></script>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/belmont.css">
+</head>
+<body>
+  <div class="loader" aria-hidden="true"><div class="loader-bars"><span></span><span></span><span></span></div></div>
+  <div data-layout="header"></div>
+
+  <main>
+    <section class="page-banner account-banner">
+      <div class="hero-bg" aria-hidden="true"><div class="hero-image" style="opacity:.22"></div><div class="grid-overlay"></div><div class="blob blob-red"></div><div class="blob blob-gold"></div></div>
+      <div class="container">
+        <div class="account-head" data-reveal>
+          <div class="account-avatar" id="avatar">–</div>
+          <div>
+            <h1 id="hello">My account</h1>
+            <p id="hello-sub">Your profile, documents and applications in one place.</p>
+          </div>
+          <div class="progress-ring" title="Profile completeness">
+            <svg viewBox="0 0 100 100" aria-hidden="true"><circle class="bg" cx="50" cy="50" r="42"/><circle class="fg" id="ring" cx="50" cy="50" r="42"/></svg>
+            <strong id="ring-label">0%</strong>
+            <small>Profile complete</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container" style="padding-bottom:20px">
+      <div class="account-layout">
+        <nav class="account-nav" id="account-nav" aria-label="Account">
+          <button type="button" data-tab="overview"><i data-icon="grid"></i> Overview</button>
+          <button type="button" data-tab="profile"><i data-icon="user"></i> My profile</button>
+          <button type="button" data-tab="documents"><i data-icon="file"></i> Documents <span class="nav-badge" id="badge-docs" hidden></span></button>
+          <button type="button" data-tab="applications"><i data-icon="inbox"></i> Applications <span class="nav-badge" id="badge-apps" hidden></span></button>
+          <button type="button" data-tab="security"><i data-icon="lock"></i> Password</button>
+          <hr>
+          <button type="button" id="logout"><i data-icon="logout"></i> Sign out</button>
+        </nav>
+
+        <div>
+          <!-- Overview -->
+          <section class="tab-panel" data-panel="overview" hidden>
+            <div class="card">
+              <div class="panel-title"><div><h2>Your journey to Germany</h2><p>Our team updates this as you progress.</p></div></div>
+              <div class="stage-track" id="stage-track"></div>
+            </div>
+            <div class="overview-grid">
+              <div class="card">
+                <div class="panel-title"><div><h2 style="font-size:21px">Your checklist</h2><p>Complete these to apply.</p></div></div>
+                <div class="todo-list" id="todo"></div>
+              </div>
+              <div class="card">
+                <div class="panel-title"><div><h2 style="font-size:21px">Recommended for you</h2><p id="rec-sub">Programmes open now</p></div><a class="link-btn" href="/programmes">All</a></div>
+                <div id="recommended"></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Profile -->
+          <section class="tab-panel" data-panel="profile" hidden>
+            <div class="card">
+              <div class="panel-title"><div><h2>My profile</h2><p>Based on the Europass CV — this is what training providers see.</p></div><span class="tag" id="email-tag"></span></div>
+              <form id="profile-form" novalidate>
+                <div id="profile-fields"></div>
+                <div class="form-error" id="profile-error" role="alert"></div>
+                <div class="sticky-save" id="save-bar"><span id="save-state">All changes saved</span><button class="btn btn-gold" type="submit" id="save-btn">Save profile</button></div>
+              </form>
+            </div>
+          </section>
+
+          <!-- Documents -->
+          <section class="tab-panel" data-panel="documents" hidden>
+            <div class="card">
+              <div class="panel-title"><div><h2>Documents</h2><p>PDF, Word, JPG or PNG · max 8 MB each. Drag a file onto a box to upload.</p></div></div>
+              <div class="doc-grid" id="doc-grid"></div>
+            </div>
+          </section>
+
+          <!-- Applications -->
+          <section class="tab-panel" data-panel="applications" hidden>
+            <div class="panel-title"><div><h2>My applications</h2><p>Follow the status of every programme you applied for.</p></div><a class="btn btn-dark btn-sm" href="/programmes">Find programmes <i data-icon="arrow"></i></a></div>
+            <div class="app-list" id="app-list"></div>
+          </section>
+
+          <!-- Password -->
+          <section class="tab-panel" data-panel="security" hidden>
+            <div class="card" style="max-width:560px">
+              <div class="panel-title"><div><h2>Change password</h2><p>You will stay signed in on this device; other devices are signed out.</p></div></div>
+              <form id="pw-form" class="auth-form" novalidate>
+                <div class="field"><label for="pw-current">Current password</label><input class="input" id="pw-current" type="password" autocomplete="current-password"></div>
+                <div class="field"><label for="pw-next">New password</label><input class="input" id="pw-next" type="password" autocomplete="new-password" minlength="8"><div class="hint">At least 8 characters.</div></div>
+                <div class="form-error" id="pw-error" role="alert"></div>
+                <button class="btn btn-dark" type="submit">Update password</button>
+              </form>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div data-layout="footer"></div>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/account.js"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>German Classes – Belmont Vocational Training</title>
+  <meta name="description" content="Short German video lessons from A1 to B2, following the Goethe-Institut syllabus. Learn German for your Ausbildung in Germany.">
+  <meta name="theme-color" content="#0d0d0d">
+  <script src="/js/file-guard.js"></script>
+  <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/belmont.css">
+</head>
+<body>
+  <div class="loader" aria-hidden="true"><div class="loader-bars"><span></span><span></span><span></span></div></div>
+  <div data-layout="header"></div>
+
+  <main>
+    <section class="page-banner classes-banner">
+      <div class="hero-bg" aria-hidden="true"><div class="hero-image" style="opacity:.25"></div><div class="grid-overlay"></div><div class="blob blob-red"></div><div class="blob blob-gold"></div></div>
+      <div class="container classes-head">
+        <div>
+          <nav class="breadcrumb" data-reveal><a href="/">Home</a> / <span>German classes</span></nav>
+          <h1 data-reveal style="--d:.1s">Learn <span class="flag-text-gold">German</span>, one short video at a time</h1>
+          <p data-reveal style="--d:.2s">Bite-sized lessons of 1–5 minutes from A1 to B2, following the Goethe-Institut syllabus — the German you need for your Ausbildung.</p>
+          <div class="classes-stats" data-reveal style="--d:.3s">
+            <div><strong id="stat-lessons">0</strong><span>Video lessons</span></div>
+            <div><strong id="stat-minutes">0</strong><span>Minutes of German</span></div>
+            <div><strong id="stat-levels">A1–B2</strong><span>Levels</span></div>
+          </div>
+        </div>
+        <div class="progress-ring classes-ring" id="my-progress" hidden title="Your progress">
+          <svg viewBox="0 0 100 100" aria-hidden="true"><circle class="bg" cx="50" cy="50" r="42"/><circle class="fg" id="ring" cx="50" cy="50" r="42"/></svg>
+          <strong id="ring-label">0%</strong>
+          <small>Lessons watched</small>
+        </div>
+      </div>
+    </section>
+
+    <div class="container classes-body">
+      <div class="join-note" id="join-note" hidden data-reveal>
+        <div class="feature-icon"><i data-icon="lock"></i></div>
+        <div class="grow"><strong>Unlock every lesson — free</strong><span>Lessons marked “Free” are open to everyone. Create a free Belmont account to watch all lessons and track your progress.</span></div>
+        <div class="gate-actions"><a class="btn btn-primary btn-sm" href="/login?mode=register&next=%2Fgerman-classes">Create free account</a><a class="btn btn-outline btn-sm" href="/login?next=%2Fgerman-classes">Sign in</a></div>
+      </div>
+
+      <div class="classes-toolbar">
+        <div class="level-tabs" id="level-tabs" role="tablist" aria-label="Level"></div>
+        <label class="tool-search"><i data-icon="search"></i><input id="lesson-search" placeholder="Search lessons…" aria-label="Search lessons"></label>
+      </div>
+
+      <div id="lessons"></div>
+    </div>
+  </main>
+
+  <!-- Player -->
+  <div class="player" id="player" hidden role="dialog" aria-modal="true" aria-labelledby="player-title">
+    <div class="player-backdrop" data-close-player></div>
+    <div class="player-box">
+      <button class="icon-btn player-close" data-close-player aria-label="Close"><i data-icon="x"></i></button>
+      <div class="player-main">
+        <div class="player-stage" id="player-stage"></div>
+        <div class="player-info">
+          <div class="player-meta" id="player-meta"></div>
+          <h2 id="player-title"></h2>
+          <p id="player-desc"></p>
+          <div class="player-actions">
+            <button class="btn btn-outline btn-sm" type="button" id="prev-lesson"><i data-icon="arrow" class="flip"></i> Previous</button>
+            <button class="btn btn-gold btn-sm" type="button" id="mark-watched" hidden><i data-icon="check"></i> Mark as watched</button>
+            <button class="btn btn-dark btn-sm" type="button" id="next-lesson">Next lesson <i data-icon="arrow"></i></button>
+          </div>
+        </div>
+      </div>
+      <aside class="player-side">
+        <h3 id="side-title">Up next</h3>
+        <div class="up-next" id="up-next"></div>
+      </aside>
+    </div>
+  </div>
+
+  <div data-layout="footer"></div>
+
+  <script src="/js/common.js"></script>
+  <script src="/js/german-classes.js"></script>
+</body>
+</html>

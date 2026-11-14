@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs><clipPath id="r"><rect width="64" height="64" rx="16"/></clipPath></defs>
+  <g clip-path="url(#r)">
+    <rect width="64" height="22" fill="#111"/>
+    <rect y="21" width="64" height="22" fill="#dd0000"/>
+    <rect y="42" width="64" height="22" fill="#ffce00"/>
+  </g>
+  <text x="32" y="45" text-anchor="middle" font-family="Arial Black, Arial, sans-serif" font-weight="900" font-size="38" fill="#fff" stroke="#000" stroke-opacity=".25" stroke-width="1">B</text>
+</svg>
