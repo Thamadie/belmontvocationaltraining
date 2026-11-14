@@ -16,7 +16,11 @@ const archiver = require('archiver');
 const store = require('./lib/store');
 const auth = require('./lib/auth');
 
-const PORT = Number(process.env.PORT) || 3000;
+const port = process.env.PORT || 3000;
+
+app.listen(port, "0.0.0.0", () => {
+  console.log(`Server running on port ${port}`);
+});
 const app = express();
 
 app.disable('x-powered-by');
