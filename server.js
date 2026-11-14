@@ -20,11 +20,6 @@ const app = express();
 
 const port = process.env.PORT || 3000;
 
-const server = app.listen(port, "0.0.0.0", () => {
-  console.log(`Belmont Vocational Training running on port ${port}`);
-});
-
-
 app.disable('x-powered-by');
 // Behind a hosting proxy (Render, Railway, Heroku…) set TRUST_PROXY=1 so
 // rate limits see the visitor's IP instead of the proxy's.
@@ -1200,13 +1195,12 @@ async function connectWithRetry() {
   }
 }
 
-const server = app.listen(PORT, () => {
-  console.log(`Belmont Vocational Training running on http://localhost:${PORT}`);
-  console.log(`Admin panel: http://localhost:${PORT}/admin`);
-  if (auth.USING_DEFAULT_PASSWORD) {
-    console.warn('WARNING: using the default admin password. Set ADMIN_PASSWORD before going live.');
-  }
+
+
+const server = app.listen(port, "0.0.0.0", () => {
+  console.log(`Belmont Vocational Training running on port ${port}`);
 });
+
 connectWithRetry();
 
 const shutdown = () => server.close(() => store.close().finally(() => process.exit(0)));
