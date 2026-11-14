@@ -16,13 +16,8 @@ const archiver = require('archiver');
 const store = require('./lib/store');
 const auth = require('./lib/auth');
 
+const PORT = Number(process.env.PORT) || 3000;
 const app = express();
-
-const port = process.env.PORT || 3000;
-
-app.listen(port, "0.0.0.0", () => {
-  console.log(`Server running on port ${port}`);
-});
 
 app.disable('x-powered-by');
 // Behind a hosting proxy (Render, Railway, Heroku…) set TRUST_PROXY=1 so
@@ -37,6 +32,14 @@ app.use((req, res, next) => {
   next();
 });
 app.use(express.json({ limit: '200kb' }));
+
+// Until MongoDB is connected, API calls get a clear "not ready" answer
+// (the health check reports the details).
+let dbError = null;
+app.use('/api', (req, res, next) => {
+  if (store.isConnected() || req.path === '/health') return next();
+  res.status(503).json({ error: dbError ? 'The database cannot be reached right now. Please try again in a moment.' : 'The website is starting up. Please try again in a few seconds.' });
+});
 
 // ---------------------------------------------------------------------------
 // Constants & helpers
@@ -303,6 +306,14 @@ function errorSummary(err) {
 }
 
 app.get('/api/health', async (req, res) => {
+  if (!store.isConnected()) {
+    return res.status(503).json({
+      ok: false,
+      database: dbError ? 'unreachable' : 'connecting',
+      reason: dbError ? errorSummary(dbError) : 'Still connecting to the database…',
+      hint: dbError ? connectionHint(dbError) : '',
+    });
+  }
   try {
     await store.ping();
     const programmes = (await store.listProgrammes()).length;
@@ -1162,23 +1173,36 @@ function connectionHint(err) {
   return 'Check MONGODB_URI, your database user/password, and that Atlas Network Access allows this server\'s IP address.';
 }
 
-store
-  .connect()
-  .then(() => {
+// The site starts listening straight away and connects to MongoDB in the
+// background, retrying until it works. Hosting platforms often start the app
+// before the network is fully ready; this way a slow or failed first attempt
+// never leaves the site half started, and /api/health explains what is wrong.
+let connectAttempt = 0;
+async function connectWithRetry() {
+  connectAttempt += 1;
+  try {
+    await store.connect();
+    dbError = null;
     console.log('Connected to MongoDB.');
-    const server = app.listen(PORT, () => {
-      console.log(`Belmont Vocational Training running on http://localhost:${PORT}`);
-      console.log(`Admin panel: http://localhost:${PORT}/admin`);
-      if (auth.USING_DEFAULT_PASSWORD) {
-        console.warn('WARNING: using the default admin password. Set ADMIN_PASSWORD before going live.');
-      }
-    });
-    const shutdown = () => server.close(() => store.close().finally(() => process.exit(0)));
-    process.on('SIGTERM', shutdown);
-    process.on('SIGINT', shutdown);
-  })
-  .catch((err) => {
-    console.error(`Could not connect to MongoDB: ${err.message}`);
+  } catch (err) {
+    dbError = err;
+    const wait = Math.min(60, 5 * connectAttempt);
+    console.error(`Could not connect to MongoDB (attempt ${connectAttempt}): ${err.message}`);
     console.error(connectionHint(err));
-    process.exit(1);
-  });
+    console.error(`Retrying in ${wait} seconds…`);
+    setTimeout(connectWithRetry, wait * 1000);
+  }
+}
+
+const server = app.listen(PORT, () => {
+  console.log(`Belmont Vocational Training running on http://localhost:${PORT}`);
+  console.log(`Admin panel: http://localhost:${PORT}/admin`);
+  if (auth.USING_DEFAULT_PASSWORD) {
+    console.warn('WARNING: using the default admin password. Set ADMIN_PASSWORD before going live.');
+  }
+});
+connectWithRetry();
+
+const shutdown = () => server.close(() => store.close().finally(() => process.exit(0)));
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
