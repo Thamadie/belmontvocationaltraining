@@ -19,8 +19,9 @@ const auth = require('./lib/auth');
 const app = express();
 
 const port = process.env.PORT || 3000;
-app.listen(port, "0.0.0.0", () => {
-  console.log(`Server running on port ${port}`);
+
+const server = app.listen(port, "0.0.0.0", () => {
+  console.log(`Belmont Vocational Training running on port ${port}`);
 });
 
 
