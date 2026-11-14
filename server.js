@@ -16,8 +16,13 @@ const archiver = require('archiver');
 const store = require('./lib/store');
 const auth = require('./lib/auth');
 
-const PORT = Number(process.env.PORT) || 3000;
 const app = express();
+
+const port = process.env.PORT || 3000;
+app.listen(port, "0.0.0.0", () => {
+  console.log(`Server running on port ${port}`);
+});
+
 
 app.disable('x-powered-by');
 // Behind a hosting proxy (Render, Railway, Heroku…) set TRUST_PROXY=1 so
