@@ -16,13 +16,8 @@ const archiver = require('archiver');
 const store = require('./lib/store');
 const auth = require('./lib/auth');
 
+const PORT = Number(process.env.PORT) || 3000;
 const app = express();
-
-const port = process.env.PORT || 3000;
-
-app.listen(port, "0.0.0.0", () => {
-  console.log(`Server running on port ${port}`);
-});
 
 app.disable('x-powered-by');
 // Behind a hosting proxy (Render, Railway, Heroku…) set TRUST_PROXY=1 so
@@ -295,12 +290,21 @@ async function sendDocument(res, user, doc, inline) {
 // Public API
 // ---------------------------------------------------------------------------
 
+// Short, safe description of an error for diagnostics: connection strings are removed.
+function errorSummary(err) {
+  const name = `${err.name || 'Error'}${err.codeName ? ` (${err.codeName})` : ''}`;
+  const message = String(err.message || '').replace(/mongodb(\+srv)?:\/\/\S+/g, '<uri>').slice(0, 200);
+  return `${name}: ${message}`;
+}
+
 app.get('/api/health', async (req, res) => {
   try {
     await store.ping();
-    res.json({ ok: true, database: 'connected' });
+    const programmes = (await store.listProgrammes()).length;
+    res.json({ ok: true, database: 'connected', programmes });
   } catch (e) {
-    res.status(503).json({ ok: false, database: 'unreachable' });
+    console.error('Health check failed:', e);
+    res.status(503).json({ ok: false, database: 'unreachable', reason: errorSummary(e), hint: connectionHint(e) });
   }
 });
 
@@ -1124,7 +1128,15 @@ app.use((req, res) => res.status(404).sendFile(path.join(__dirname, 'public', '4
 app.use((err, req, res, next) => {
   console.error(err);
   if (res.headersSent) return next(err);
-  res.status(500).json({ error: 'Something went wrong.' });
+  // Lost connection to Atlas (network access list, DNS, cluster paused…): say so instead of a generic error.
+  if (/^Mongo(ServerSelection|Network|Topology)/.test(err.name || '') || /ECONNREFUSED|ETIMEDOUT|ENOTFOUND|querySrv/.test(err.message || '')) {
+    return res.status(503).json({ error: 'The database cannot be reached right now. Please try again in a moment.' });
+  }
+  if (err.codeName === 'Unauthorized' || err.code === 13) {
+    return res.status(503).json({ error: 'The database user is not allowed to do this. In Atlas → Database Access, give it “Read and write to any database”.' });
+  }
+  // The short error type helps tell problems apart in a screenshot without exposing details.
+  res.status(500).json({ error: `Something went wrong (${err.name || 'Error'}${err.codeName ? `: ${err.codeName}` : ''}).` });
 });
 
 function connectionHint(err) {
